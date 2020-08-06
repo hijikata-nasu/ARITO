@@ -81,3 +81,6 @@ Git Flowをベースにしたものを使用します
 hogeの部分は今開発中の機能名が来る(feature/searchなど)  
 一番最初のcommitはこのブランチでは何をするかがメッセージとして書かれた空コミット(下のコマンドそのままでできます)   
 `git commit --allow-empty -m "メッセージ(searchなど)"`  
+
+## 参考にした(てかほぼパクった)README
+https://github.com/nitoc-ict/GooTravel/blob/master/README.md
