@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">ARITO</string>
+    <string name="app_version">Ver0.1</string>
+    <string name="card_sensor_title">センサーの状態</string>
+    <string name="card_sensor_blutooth">Blutooth</string>
+    <string name="card_sensor_blutooth_unconnected">未接続</string>
+    <string name="card_sensor_blutooth_connected">接続済み</string>
+    <string name="card_sensor_battery_life">電池残量</string>
+    <string name="card_sensor_battery_life_value">不明</string>
+    <string name="card_message_title">再生予定のメッセージ</string>
+    <string name="card_message_play_time">再生時間</string>
+    <string name="card_message_play_time_value">秒</string>
+    <string name="card_message_retaking">録り直し</string>
+    <string name="card_message_play">再生</string>
+    <string name="button_record_message">メッセージの記録</string>
 </resources>
