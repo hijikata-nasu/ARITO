@@ -86,3 +86,6 @@ lint/tmp/
 
 # windows syatemfile
 .DS_Store
+
+# plugin setting
+CodicPluginSettings.xml
