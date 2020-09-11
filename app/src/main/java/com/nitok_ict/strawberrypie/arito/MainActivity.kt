@@ -23,6 +23,8 @@ class MainActivity : AppCompatActivity() {
         val batteryLifeTextView: TextView = findViewById(R.id.textview_batterylife)
         val messagePlayTimeTextView: TextView = findViewById(R.id.textview_message_playtime)
 
+        val obentoSensor = ObentoSensor()
+
         if(true/*メッセージが記録されているか*/) { //TODO メッセージが記録されているかの確認の処理
             messageCard.visibility = View.VISIBLE
         messagePlayTimeTextView.text = "null秒"  //TODO 再生時間を取得して格納する
@@ -30,9 +32,9 @@ class MainActivity : AppCompatActivity() {
             messageCard.visibility = View.GONE
         }
 
-        if (true/*デバイスと接続済みか*/) {               //TODO　デバイスとの通信用クラスが実装されたら書く
+        if (obentoSensor.isConnected()) {
             bTConnectionTextView.setText(R.string.card_sensor_blutooth_connected)
-            if (true/*デバイスの電池残量が少ない時*/) {       //TODO デバイスとの通信用クラスが実装されたら書く
+            if (obentoSensor.isBatteryLow()) {
                 batteryLifeTextView.setText(R.string.card_sensor_battery_life_low)
             } else {
                 batteryLifeTextView.setText(R.string.card_sensor_battery_life_high)
