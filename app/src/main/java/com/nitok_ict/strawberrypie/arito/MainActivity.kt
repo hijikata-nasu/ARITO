@@ -3,6 +3,7 @@ package com.nitok_ict.strawberrypie.arito
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import com.google.android.material.button.MaterialButton
@@ -57,6 +58,7 @@ class MainActivity : AppCompatActivity() {
 
         messageRecordButton.setOnClickListener{
             val intent = Intent(this, MessageRecordActivity::class.java)
+            Log.d("debag", "インデントしています")
             startActivity(intent)
         }
 
