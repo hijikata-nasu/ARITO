@@ -16,4 +16,6 @@
     <string name="card_message_play">再生</string>
     <string name="button_record_message">メッセージの記録</string>
     <string name="toast_bluetooth_unsupported">このデバイスはBluetoothに対応していません</string>
+    <string name="hint_text">下のボタンをタップすると</string>
+    <string name="record_hint_text">下のボタンをタップすると録音を開始します</string>
 </resources>

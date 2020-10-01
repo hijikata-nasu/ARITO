@@ -56,7 +56,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         messageRecordButton.setOnClickListener{
-            //TODO 画面遷移処理を書く
+            val intent = Intent(this, MessageRecordActivity::class.java)
+            startActivity(intent)
         }
 
     }
