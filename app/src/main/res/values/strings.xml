@@ -18,4 +18,7 @@
     <string name="toast_bluetooth_unsupported">このデバイスはBluetoothに対応していません</string>
     <string name="hint_text">下のボタンをタップすると</string>
     <string name="record_hint_text">下のボタンをタップすると録音を開始します</string>
+    <string name="playing_message_status">メッセージ再生中…</string>
+    <string name="stopped_message_status">メッセージ停止中…</string>
+
 </resources>

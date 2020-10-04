@@ -35,7 +35,8 @@ class MainActivity : AppCompatActivity() {
         messagePlayTimeTextView.text = "null秒"  //TODO 再生時間を取得して格納する
 
         messagePlayButton.setOnClickListener {
-            //TODO 画面遷移処理を書く
+            val intent = Intent(this, MessagePlayActivity::class.java)
+            startActivity(intent)
         }
 
         retakingButton.setOnClickListener {

@@ -1,6 +1,5 @@
 package com.nitok_ict.strawberrypie.arito
 
-import android.graphics.Color
 import android.media.MediaRecorder
 import android.os.Bundle
 import android.os.SystemClock
@@ -24,11 +23,13 @@ class MessageRecordActivity : AppCompatActivity() {
             chronometer.setBase(SystemClock.elapsedRealtime()) //タイマーリセット
             chronometer.start()  //タイマー開始
             startMediaRecord()  //録音開始
+            Log.d("debag", "録音開始しました")
         }
 
         stopBtn.setOnClickListener(){
             chronometer.stop()  //タイマー停止
             stopRecord()  //録音終了
+            Log.d("debag", "録音停止しました")
         }
     }
 
@@ -37,11 +38,11 @@ class MessageRecordActivity : AppCompatActivity() {
             : MediaRecorder? = null
 
     private fun startMediaRecord() {
-        val filePath = applicationContext.filesDir //録音用のファイルパス　getFilesDirで作成元アプリの内部ディレクトリを示す
+        val filePath =  applicationContext.filesDir//録音用のファイルパス　FilesDirで作成元アプリの内部ディレクトリを示す
         Log.d("debag", "startMediaRecordは起動しています")
         Log.d("debag", filePath.toString())
         try {
-            var mediafile: File = File(filePath, "test.wav")
+            var mediafile: File = File(filePath, "record.wav")
             if (mediafile.exists()) {
                 //ファイルが存在する場合は削除する
                 Log.d("debag", "録音したファイルが存在しています")
