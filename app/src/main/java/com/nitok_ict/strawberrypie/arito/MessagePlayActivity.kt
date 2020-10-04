@@ -3,6 +3,7 @@ package com.nitok_ict.strawberrypie.arito
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import com.google.android.material.button.MaterialButton
@@ -14,16 +15,11 @@ class MessagePlayActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message_play)
 
-        val startBtn : Button = findViewById(R.id.startBtn)
-        val exitBtn : Button = findViewById(R.id.exitBtn)
+        val startBtn : View = findViewById(R.id.startBtn)
+        val exitBtn : View = findViewById(R.id.exitBtn)
         val messageStatus : TextView = findViewById(R.id.messageStatus)
 
         val messageDate = Message()
-
-        messageDate.readFromFile()
-
-        messageDate.faceData
-        messageDate.voiceMessage
 
 
         exitBtn.setOnClickListener{
