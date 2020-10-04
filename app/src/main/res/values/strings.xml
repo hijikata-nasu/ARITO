@@ -5,6 +5,7 @@
     <string name="card_sensor_bluetooth">Bluetooth</string>
     <string name="card_sensor_bluetooth_unconnected">未接続</string>
     <string name="card_sensor_bluetooth_connected">接続済み</string>
+    <string name="card_bluetooth_connection">接続する</string>
     <string name="card_sensor_battery_life">電池残量</string>
     <string name="card_sensor_battery_life_unknown">不明</string>
     <string name="card_sensor_battery_life_high">OK</string>
@@ -15,5 +16,10 @@
     <string name="card_message_retaking">録り直し</string>
     <string name="card_message_play">再生</string>
     <string name="button_record_message">メッセージの記録</string>
-    <string name="toast_bluetooth_unsupported">このデバイスはBluetoothに対応していません</string>
+    <string name="toast_bluetooth_connection_failure">接続失敗</string>
+    <string name="toast_bluetooth_connection_success">接続成功</string>
+    <string name="toast_bluetooth_unsupported">このデバイスはBluetoothに対応していないません。\nアプリケーションを終了します。</string>
+    <string name="toast_need_bluetooth">このアプリはBluetoothを使います。\nアプリケーションを終了します。</string>
+    <string name="manifest_service_description">外部センサーとの通信及びアクティビティの起動を行うためのService</string>
+    <string name="card_message_play_time_unit">秒</string>
 </resources>

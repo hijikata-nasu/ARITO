@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -84,7 +85,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:orientation="horizontal">
 
@@ -106,6 +107,29 @@
                         android:gravity="end"
                         android:text="@string/card_sensor_battery_life_unknown"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.325" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/reconnection_button"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.35"
+                        android:text="@string/card_bluetooth_connection"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.325" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -182,7 +206,7 @@
                         android:id="@+id/retaking_button"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.4"
+                        android:layout_weight="0.35"
                         android:text="@string/card_message_retaking"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -195,7 +219,7 @@
                         android:id="@+id/message_play_button"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.4"
+                        android:layout_weight="0.35"
                         android:text="@string/card_message_play"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
