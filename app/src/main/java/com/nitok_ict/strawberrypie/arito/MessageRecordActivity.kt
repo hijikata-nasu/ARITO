@@ -1,5 +1,6 @@
 package com.nitok_ict.strawberrypie.arito
 
+import android.content.Intent
 import android.media.MediaRecorder
 import android.os.Bundle
 import android.os.SystemClock
@@ -30,6 +31,11 @@ class MessageRecordActivity : AppCompatActivity() {
             chronometer.stop()  //タイマー停止
             stopRecord()  //録音終了
             Log.d("debag", "録音停止しました")
+        }
+
+        exitBtn.setOnClickListener(){
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
     }
 

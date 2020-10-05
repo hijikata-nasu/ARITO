@@ -34,13 +34,11 @@
       android:id="@+id/startBtn"
       android:layout_width="100dp"
       android:layout_height="wrap_content"
-      android:layout_marginStart="100dp"
-      android:layout_marginTop="150dp"
+      android:layout_marginStart="30dp"
+      android:layout_marginBottom="64dp"
       android:clickable="true"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/hintText"
-      app:layout_constraintVertical_bias="0.491"
       app:rippleColor="#FFFFFF"
       app:srcCompat="@drawable/ic_record" />
 
@@ -48,12 +46,23 @@
       android:id="@+id/stopBtn"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="150dp"
-      android:layout_marginEnd="100dp"
+      android:layout_marginBottom="64dp"
       android:clickable="true"
       app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/hintText"
+      app:layout_constraintEnd_toStartOf="@+id/exitBtn"
+      app:layout_constraintStart_toEndOf="@+id/startBtn"
       app:srcCompat="@drawable/ic_stop" />
+
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+      android:id="@+id/exitBtn"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="30dp"
+      android:layout_marginBottom="64dp"
+      android:clickable="true"
+      android:rotation="180"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:srcCompat="@drawable/abc_vector_test" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
