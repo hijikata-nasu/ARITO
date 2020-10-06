@@ -3,7 +3,7 @@ package com.nitok_ict.strawberrypie.arito
 class Message{
 
     var voiceMessage: Int = 0   //音声用のメンバ
-    var faceDataList: MutableList<FaceData> = mutableListOf(FaceData(R.drawable.face_image_test, 0,5))   //表情データ保存用のメンバ
+    var faceDataList: MutableList<FaceData> = mutableListOf(FaceData(R.drawable.face_image_0, 0,5))   //表情データ保存用のメンバ
 
     fun sveToFile(){        //ファイルとして保存する為の関数　TODO 実装する
     }

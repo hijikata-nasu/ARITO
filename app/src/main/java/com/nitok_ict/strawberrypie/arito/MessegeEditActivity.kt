@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
+import kotlinx.android.synthetic.main.activity_messege_edit.*
 
 class MessegeEditActivity : AppCompatActivity(), ItemClickListener, MessageEditListener {
     //ViweModelのインスタンスを取ってくる
@@ -25,9 +26,8 @@ class MessegeEditActivity : AppCompatActivity(), ItemClickListener, MessageEditL
         editRecyclerView = findViewById(R.id.recyclerview_edit_message)
         val addDataButton: MaterialButton = findViewById(R.id.add_data_button)
 
-        editRecyclerView.layoutManager = LinearLayoutManager(this)
-
         faceDataListAdapter = EditDataAdapter(viewModel.getFaceData(), this)
+        editRecyclerView.layoutManager = LinearLayoutManager(this)
         editRecyclerView.adapter = faceDataListAdapter
 
         addDataButton.setOnClickListener {
@@ -37,17 +37,20 @@ class MessegeEditActivity : AppCompatActivity(), ItemClickListener, MessageEditL
     }
 
     override fun onFaceDataEdit(position: Int, resID: Int) {
-        //TODO
+        viewModel.editResID(position, resID)
+        faceDataListAdapter.notifyDataSetChanged()
     }
 
     override fun onDisplayTimeEdit(position: Int, time: Int) {
         viewModel.editDisplayTime(position, time)
         faceDataListAdapter.notifyDataSetChanged()
-        //TODO
     }
 
     override fun onEditFaceClick(position: Int) {
-        //TODO
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.fragment_container, SelectFaceFragment(position, this))
+        fragmentTransaction.commit()
     }
 
     override fun onEditTimeClick(position: Int) {

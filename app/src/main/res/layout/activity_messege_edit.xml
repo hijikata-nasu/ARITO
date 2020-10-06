@@ -18,7 +18,7 @@
                 android:id="@+id/recyclerview_edit_message"
                 android:scrollbars="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingTop="32dp"
                 android:paddingBottom="128dp"
                 android:clipToPadding="false">

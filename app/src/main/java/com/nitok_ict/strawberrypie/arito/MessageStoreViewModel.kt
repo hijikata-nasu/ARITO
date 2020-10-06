@@ -12,7 +12,7 @@ class MessageStoreViewModel: ViewModel() {
     fun addData(){
         message.faceDataList.add(
             FaceData(
-                R.drawable.face_image_test,
+                R.drawable.face_image_0,
                 message.faceDataList.last().endTime,
                 message.faceDataList.last().endTime + 5))
     }
