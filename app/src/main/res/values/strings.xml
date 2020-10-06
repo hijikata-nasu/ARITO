@@ -22,4 +22,9 @@
     <string name="toast_need_bluetooth">このアプリはBluetoothを使います。\nアプリケーションを終了します。</string>
     <string name="manifest_service_description">外部センサーとの通信及びアクティビティの起動を行うためのService</string>
     <string name="card_message_play_time_unit">秒</string>
+    <string name="button_facedeta_add">表情の追加</string>
+    <string name="facedata_start_to_end">～</string>
+    <string name="facedata_start_text_default">開始秒数</string>
+    <string name="facedata_end_text_default">終了秒数</string>
+    <string name="selecttime_time_to_show">表示時間</string>
 </resources>

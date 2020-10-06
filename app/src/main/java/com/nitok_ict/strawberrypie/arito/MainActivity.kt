@@ -83,6 +83,9 @@ class MainActivity : AppCompatActivity(){
 
         messageRecordButton.setOnClickListener{
             //TODO 画面遷移処理を書く
+            Intent(this, MessegeEditActivity::class.java).also { intent ->
+                startActivity(intent)
+            }
         }
 
         //Bluetoothが端末で使えるかの確認
@@ -160,7 +163,7 @@ class MainActivity : AppCompatActivity(){
 
         if(true/*メッセージが記録されているか*/) { //TODO メッセージが記録されているかの確認の処理
             messageCard.visibility = View.VISIBLE
-            messagePlayTimeTextView.text = "null" + applicationContext.resources.getText(R.string.card_message_play_time_unit) //TODO 再生時間を取得して格納する
+            messagePlayTimeTextView.text = ("null" + applicationContext.resources.getText(R.string.card_message_play_time_unit)) //TODO 再生時間を取得して格納する
         } else {
             messageCard.visibility = View.GONE
         }
