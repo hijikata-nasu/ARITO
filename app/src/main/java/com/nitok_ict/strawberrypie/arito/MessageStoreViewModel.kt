@@ -1,5 +1,6 @@
 package com.nitok_ict.strawberrypie.arito
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 
 class MessageStoreViewModel: ViewModel() {
@@ -30,7 +31,12 @@ class MessageStoreViewModel: ViewModel() {
         }
     }
 
-    fun saveToFile(){
-        //TODO
+    fun saveToFile(context: Context){
+        message.deleteFile(context)
+        message.saveToFile(context)
+    }
+
+    fun readFromFile(context: Context){
+        message.readFromFile(context)
     }
 }
