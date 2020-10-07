@@ -5,6 +5,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.IBinder
 import android.os.Messenger
@@ -13,6 +14,7 @@ import android.webkit.RenderProcessGoneDetail
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 
@@ -164,9 +166,15 @@ class MainActivity : AppCompatActivity(){
     override fun onResume() {
         super.onResume()
 
-        if(true/*メッセージが記録されているか*/) { //TODO メッセージが記録されているかの確認の処理
+        val message = Message()
+        message.setVoiceDir(this)
+        val filePath = message.voiceMessage.toUri()
+
+        if(message.isSonzai(this)) { //TODO メッセージが記録されているかの確認の処理
+            val mediaPlayer = MediaPlayer.create(this, filePath )
+            val saiseiTime = mediaPlayer.duration / 1000
             messageCard.visibility = View.VISIBLE
-            messagePlayTimeTextView.text = ("null" + applicationContext.resources.getText(R.string.card_message_play_time_unit)) //TODO 再生時間を取得して格納する
+            messagePlayTimeTextView.text = (saiseiTime.toString() + applicationContext.resources.getText(R.string.card_message_play_time_unit)) //TODO 再生時間を取得して格納する
         } else {
             messageCard.visibility = View.GONE
         }

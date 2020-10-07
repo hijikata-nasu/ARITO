@@ -10,7 +10,7 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import java.io.BufferedReader
 import java.io.File
 
-class Message(){
+class Message{
     lateinit var voiceMessage: File
     var faceDataList: MutableList<FaceData> = mutableListOf(FaceData(R.drawable.face_image_0, 0, 5))   //表情データ保存用のメンバ
 
@@ -52,6 +52,11 @@ class Message(){
 
     fun sortData(){         //開始時間順にソートする関数
         faceDataList.sortBy { it.startTime }
+    }
+
+    fun isSonzai(context: Context): Boolean{
+        val readFile = File(context.filesDir, "Message.json")
+        return readFile.exists()
     }
 
 }
