@@ -182,9 +182,9 @@ class ObentoSensorService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val name = "うんちぷりぷり"
+        val name = "Service"
         val id = "casareal_foreground"
-        val notifyDescription = "The UNTI is oshiri kara deru yatu"
+        val notifyDescription = "ARITO Service"
 
         if (manager.getNotificationChannel(id) == null) {
             val mChannel = NotificationChannel(id, name, NotificationManager.IMPORTANCE_HIGH)
@@ -195,9 +195,9 @@ class ObentoSensorService : Service() {
         }
 
         val notification = NotificationCompat.Builder(this, id).apply {
-            setContentTitle("通知タイトル")
-            setContentText("通知の内容")
-            setSmallIcon(R.drawable.face_image_0)
+            setContentTitle("メッセージ再生待機中")
+            setContentText("メッセージ再生を待機しています。")
+            setSmallIcon(R.drawable.ic_launcher_foreground)
         }.build()
 
         startForeground(1, notification)
