@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_message_record.*
 import java.io.File
 
 class MessageRecordActivity : AppCompatActivity() {
-
+    val message = Message()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,53 +20,52 @@ class MessageRecordActivity : AppCompatActivity() {
         Log.d("debag", "onCreateは起動しています")
         val chronometer: Chronometer = findViewById(R.id.chronometer)
 
-        startBtn.setOnClickListener(){
+        startBtn.setOnClickListener{
             chronometer.setBase(SystemClock.elapsedRealtime()) //タイマーリセット
             chronometer.start()  //タイマー開始
             startMediaRecord()  //録音開始
             Log.d("debag", "録音開始しました")
         }
 
-        stopBtn.setOnClickListener(){
+        stopBtn.setOnClickListener{
             chronometer.stop()  //タイマー停止
             stopRecord()  //録音終了
             Log.d("debag", "録音停止しました")
         }
 
-        exitBtn.setOnClickListener(){
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+        exitBtn.setOnClickListener{
+            Intent(this, MessegeEditActivity::class.java).also { intent ->
+                startActivity(intent)
+            }
         }
     }
 
     //録音
-    private var mediarecorder //録音用のメディアレコーダークラス
-            : MediaRecorder? = null
+    // 録音用のメディアレコーダークラス
+    private lateinit var mediarecorder: MediaRecorder
 
     private fun startMediaRecord() {
-        val filePath =  applicationContext.filesDir//録音用のファイルパス　FilesDirで作成元アプリの内部ディレクトリを示す
-        Log.d("debag", "startMediaRecordは起動しています")
-        Log.d("debag", filePath.toString())
+        message.setVoiceDir(this)
         try {
-            var mediafile: File = File(filePath, "record.wav")
-            if (mediafile.exists()) {
+            val mediaFile: File = message.voiceMessage
+            if (mediaFile.exists()) {
                 //ファイルが存在する場合は削除する
                 Log.d("debag", "録音したファイルが存在しています")
-                mediafile.delete()
+                mediaFile.delete()
             }
             mediarecorder = MediaRecorder()
             //マイクからの音声を録音する
-            mediarecorder!!.setAudioSource(MediaRecorder.AudioSource.MIC)
+            mediarecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
             //ファイルへの出力フォーマット DEFAULTにするとwavが扱えるはず
-            mediarecorder!!.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT)
+            mediarecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT)
             //音声のエンコーダーも合わせてdefaultにする
-            mediarecorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
+            mediarecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
             //ファイルの保存先を指定
-            mediarecorder!!.setOutputFile(mediafile)
+            mediarecorder.setOutputFile(mediaFile)
             //録音の準備をする
-            mediarecorder!!.prepare()
+            mediarecorder.prepare()
             //録音開始
-            mediarecorder!!.start()
+            mediarecorder.start()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -75,16 +74,12 @@ class MessageRecordActivity : AppCompatActivity() {
     //停止
     private fun stopRecord() {
         Log.d("debag", "stopRecordは起動しています")
-        if (mediarecorder == null) {
-            Toast.makeText(this@MessageRecordActivity, "mediarecorder = null", Toast.LENGTH_SHORT).show()
-        } else {
-            try {
-                //録音停止
-                mediarecorder!!.stop()
-                mediarecorder!!.reset()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+        try {
+            //録音停止
+            mediarecorder.stop()
+            mediarecorder.reset()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }

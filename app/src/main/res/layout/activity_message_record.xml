@@ -40,7 +40,7 @@
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:rippleColor="#FFFFFF"
-      app:srcCompat="@drawable/ic_record" />
+      app:srcCompat="@drawable/ic_baseline_fiber_manual_record_24" />
 
   <com.google.android.material.floatingactionbutton.FloatingActionButton
       android:id="@+id/stopBtn"
@@ -51,7 +51,7 @@
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toStartOf="@+id/exitBtn"
       app:layout_constraintStart_toEndOf="@+id/startBtn"
-      app:srcCompat="@drawable/ic_stop" />
+      app:srcCompat="@drawable/ic_baseline_stop_24" />
 
   <com.google.android.material.floatingactionbutton.FloatingActionButton
       android:id="@+id/exitBtn"
@@ -60,9 +60,8 @@
       android:layout_marginEnd="30dp"
       android:layout_marginBottom="64dp"
       android:clickable="true"
-      android:rotation="180"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:srcCompat="@drawable/abc_vector_test" />
+      app:srcCompat="@drawable/ic_baseline_done_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

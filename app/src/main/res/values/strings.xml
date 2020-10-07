@@ -9,6 +9,7 @@
     <string name="card_sensor_battery_life_unknown">不明</string>
     <string name="card_sensor_battery_life_high">OK</string>
     <string name="card_sensor_battery_life_low">残り僅か</string>
+    <string name="card_bluetooth_connection">接続する</string>
     <string name="card_message_title">再生予定のメッセージ</string>
     <string name="card_message_play_time">再生時間</string>
     <string name="card_message_play_time_value">秒</string>
@@ -26,7 +27,6 @@
     <string name="facedata_start_text_default">開始秒数</string>
     <string name="facedata_end_text_default">終了秒数</string>
     <string name="selecttime_time_to_show">表示時間</string>
-    <string name="toast_bluetooth_unsupported">このデバイスはBluetoothに対応していません</string>
     <string name="hint_text">下のボタンをタップすると</string>
     <string name="record_hint_text">下のボタンをタップすると録音を開始します</string>
     <string name="playing_message_status">メッセージ再生中…</string>

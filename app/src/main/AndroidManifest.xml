@@ -6,12 +6,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-    package="com.nitok_ict.strawberrypie.arito" >
-
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO"></uses-permission>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 
     <application
         android:allowBackup="true"
@@ -20,7 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MessegeEditActivity"></activity>
+        <activity android:name=".MessegeEditActivity"/>
 
         <service
             android:name=".ObentoSensorService"
@@ -29,11 +24,9 @@
             android:exported="false"
             android:foregroundServiceType="connectedDevice|mediaProjection" />
 
-        <activity android:name=".MainActivity">
-        android:theme="@style/AppTheme" >
         <activity android:name=".MessageRecordActivity" >
         </activity>
-        <activity android:name=".MessagePlayActivity" ></activity>
+        <activity android:name=".MessagePlayActivity"/>
         <activity android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

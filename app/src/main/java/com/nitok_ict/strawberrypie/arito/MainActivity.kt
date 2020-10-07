@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.IBinder
+import android.os.Messenger
 import android.view.View
 import android.webkit.RenderProcessGoneDetail
 import android.widget.TextView
@@ -27,7 +29,7 @@ class MainActivity : AppCompatActivity(){
     lateinit var bTConnectionTextView: TextView
     lateinit var batteryLifeTextView: TextView
     lateinit var messagePlayTimeTextView: TextView
-    lateinit var serviceMessenger:Messenger
+
     //MaterialCardView
     lateinit var messageCard: MaterialCardView
 
@@ -72,16 +74,19 @@ class MainActivity : AppCompatActivity(){
 
         //ボタンの処理
         messagePlayButton.setOnClickListener {
-            //TODO 画面遷移処理を書く
+            Intent(this, MessagePlayActivity::class.java).also {intent ->
+                startActivity(intent)
+            }
         }
 
         retakingButton.setOnClickListener {
-            //TODO 画面遷移処理を書く
+            Intent(this, MessegeEditActivity::class.java).also { intent ->
+                startActivity(intent)
+            }
         }
 
         messageRecordButton.setOnClickListener{
-            //TODO 画面遷移処理を書く
-            Intent(this, MessegeEditActivity::class.java).also { intent ->
+            Intent(this, MessageRecordActivity::class.java).also { intent ->
                 startActivity(intent)
             }
         }
@@ -182,9 +187,7 @@ class MainActivity : AppCompatActivity(){
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == REQUEST_ENABLE_BT) {
-            if (resultCode == RESULT_OK){
-                // TODO Serviceを実装したら書く
-            } else {
+            if (resultCode != RESULT_OK){
                 Toast.makeText(this, R.string.toast_need_bluetooth, Toast.LENGTH_LONG).show()
                 this.moveTaskToBack(true)
             }

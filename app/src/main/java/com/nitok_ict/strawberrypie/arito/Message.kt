@@ -10,11 +10,15 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import java.io.BufferedReader
 import java.io.File
 
-class Message{
-    var voiceMessage: Int = 0   //音声用のメンバ
+class Message(){
+    lateinit var voiceMessage: File
     var faceDataList: MutableList<FaceData> = mutableListOf(FaceData(R.drawable.face_image_0, 0, 5))   //表情データ保存用のメンバ
 
-    fun saveToFile(context: Context){        //ファイルとして保存する為の関数　TODO 実装する
+    fun setVoiceDir(context: Context){
+        voiceMessage = File(context.filesDir, "message.wav")
+    }
+
+    fun saveToFile(context: Context){        //ファイルとして保存する為の関数
         val mapper = jacksonObjectMapper()
         val json = mapper.writeValueAsString(faceDataList)
         File(context.filesDir, "Message.json").writer().use {
@@ -23,7 +27,7 @@ class Message{
         Log.d("DEBUG_read", json)
     }
 
-    fun readFromFile(context: Context): Boolean{     //ファイルから復元する為の関数　TODO 実装する
+    fun readFromFile(context: Context): Boolean{     //ファイルから復元する為の関数
         val readFile = File(context.filesDir, "Message.json")
         if (readFile.exists()){
             val mapper = jacksonObjectMapper()
@@ -38,7 +42,8 @@ class Message{
         }
     }
 
-    fun deleteFile(context: Context){       //保存されているファイルを削除する関数　TODO 実装する
+    //保存されているファイルを削除する関数
+    fun deleteFile(context: Context){
         val readFile = File(context.filesDir, "Message.json")
         if (readFile.exists()){
             readFile.delete()

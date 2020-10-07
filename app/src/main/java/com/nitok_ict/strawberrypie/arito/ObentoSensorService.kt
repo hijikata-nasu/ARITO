@@ -174,6 +174,7 @@ class ObentoSensorService : Service() {
                 (0..15).map {
                     Thread.sleep(1000)
                 }
+                bluetoothDisconnect()
                 stopSelf()
             }
         ).start()
