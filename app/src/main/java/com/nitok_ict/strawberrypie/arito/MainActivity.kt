@@ -128,7 +128,7 @@ class MainActivity : AppCompatActivity(){
             } else {
                 //Bluetooth通信が可能な時
                 Intent(this, ObentoSensorService::class.java).also { intent ->
-                    startService(intent)
+                    startForegroundService(intent)
                 }
             }
         }
@@ -176,9 +176,8 @@ class MainActivity : AppCompatActivity(){
     }
 
     override fun onDestroy() {
+        obentoSensorService.startEventListener()
         super.onDestroy()
-        // TODO センサーからの通知を待機する関数を実装し呼び出す
-        obentoSensorService.stopSelf()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

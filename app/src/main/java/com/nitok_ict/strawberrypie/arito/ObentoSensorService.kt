@@ -1,12 +1,17 @@
 package com.nitok_ict.strawberrypie.arito
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.Service
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
+import android.content.Context
 import android.content.Intent
 import android.os.*
 import android.util.Log
+import androidx.core.app.NotificationCompat
+import androidx.core.content.getSystemService
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
@@ -162,7 +167,39 @@ class ObentoSensorService : Service() {
 
     fun isConnected():Boolean = state == STATE_CONNECTED
 
+    fun startEventListener(){
+        Thread(
+            Runnable {
+                (0..15).map {
+                    Thread.sleep(1000)
+                }
+                stopSelf()
+            }
+        ).start()
+    }
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val name = "うんちぷりぷり"
+        val id = "casareal_foreground"
+        val notifyDescription = "The UNTI is oshiri kara deru yatu"
+
+        if (manager.getNotificationChannel(id) == null) {
+            val mChannel = NotificationChannel(id, name, NotificationManager.IMPORTANCE_HIGH)
+            mChannel.apply {
+                description = notifyDescription
+            }
+            manager.createNotificationChannel(mChannel)
+        }
+
+        val notification = NotificationCompat.Builder(this, id).apply {
+            setContentTitle("通知タイトル")
+            setContentText("通知の内容")
+            setSmallIcon(R.drawable.face_image_0)
+        }.build()
+
+        startForeground(1, notification)
+
         return super.onStartCommand(intent, flags, startId)
     }
 
@@ -178,5 +215,4 @@ class ObentoSensorService : Service() {
         super.onDestroy()
         bluetoothDisconnect()
     }
-
 }
