@@ -168,6 +168,7 @@ class ObentoSensorService : Service() {
     fun isConnected():Boolean = state == STATE_CONNECTED
 
     fun startEventListener(){
+        //ここに再生画面を起動するコードを書く TODO
         Thread(
             Runnable {
                 (0..15).map {
