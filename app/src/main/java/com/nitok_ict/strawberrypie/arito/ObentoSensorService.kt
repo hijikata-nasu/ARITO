@@ -170,6 +170,7 @@ class ObentoSensorService : Service() {
     fun isConnected():Boolean = state == STATE_CONNECTED
 
     fun startWaitLiftEvent(){
+        Log.d("DEBUG_Service", "startWaitEvent")
         isWaiting = true
         Thread(
             Runnable {
@@ -182,12 +183,15 @@ class ObentoSensorService : Service() {
                 do {
                     inputByte = inputStream.read(buffer)
                     result = String(buffer, 0, inputByte)
-                } while (inputByte == -1 && isWaiting)
+                } while (inputByte == -1)
 
                 Log.d("DEBUG_Service", result)
                 if (result[0] == '!') {
                     Log.d("DEBUG_Service", "Activity起動")
-                    //　TODO Activity起動処理を書く
+                    val intent = Intent(applicationContext, MessagePushPlayActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    application.startActivity(intent)
+
                     bluetoothDisconnect()
                     stopSelf()
                 }

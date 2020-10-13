@@ -7,9 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 
 class MessagePushPlayActivity : AppCompatActivity() {
-    lateinit var faceImage: ImageView
-    lateinit var mediaPlayer: MediaPlayer
-    lateinit var message: Message
+    private lateinit var faceImage: ImageView
+    private lateinit var mediaPlayer: MediaPlayer
+    private lateinit var message: Message
 
     private val handler: Handler = object : Handler() {
         override fun handleMessage(msg: android.os.Message) {
@@ -41,9 +41,5 @@ class MessagePushPlayActivity : AppCompatActivity() {
             mediaPlayer.release()
             finishAndRemoveTask()
         }.start()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 }
