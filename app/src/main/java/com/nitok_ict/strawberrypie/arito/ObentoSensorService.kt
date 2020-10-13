@@ -3,21 +3,18 @@ package com.nitok_ict.strawberrypie.arito
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
-import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.*
+import android.os.Binder
+import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import androidx.core.content.getSystemService
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
 import java.util.*
 
 class ObentoSensorService : Service() {
@@ -43,8 +40,6 @@ class ObentoSensorService : Service() {
         const val STATE_DISCONNECTED = 6
 
         const val SERVICE_IS_RUNNING = "ObentoSensorService_is_running"
-
-        fun createIntent(context: Context) = Intent(context, ObentoSensorService::class.java)
 
         fun isRunning(context: Context): Boolean{
             return LocalBroadcastManager.getInstance(context).sendBroadcast(Intent(SERVICE_IS_RUNNING)
@@ -81,9 +76,8 @@ class ObentoSensorService : Service() {
             outputStream.write("1".toByteArray())
 
             val inputByte: Int = inputStream.read(buffer)
-            val result = String(buffer, 0, inputByte)
 
-            return when (result) {
+            return when (String(buffer, 0, inputByte)) {
                 "L" -> {
                     Log.d("DEBUG", "バッテリー残量低いらしい")
                     true
@@ -105,7 +99,7 @@ class ObentoSensorService : Service() {
     * お弁当箱が載っているときは　 false を返す
     * デバイスとの通信が失敗した時true を返す*/
     fun isDetectLift():Boolean{
-        //Blutooth接続が確立されていないときにtrueを返す
+        //Bluetooth接続が確立されていないときにtrueを返す
         if (state != STATE_CONNECTED)return true
 
         val outputStream = bluetoothSocket.outputStream
@@ -115,9 +109,8 @@ class ObentoSensorService : Service() {
         outputStream.write("2".toByteArray())
 
         val inputByte: Int = inputStream.read(buffer)
-        val result = String(buffer, 0, inputByte)
 
-        return when (result) {
+        return when (String(buffer, 0, inputByte)) {
             "1" -> true
             "2" -> false
             else -> {
@@ -128,7 +121,6 @@ class ObentoSensorService : Service() {
     }
 
     fun bluetoothConnect(bluetoothDevice: BluetoothDevice): Boolean{
-        if (state == STATE_CONNECTED) return true
         try {
             state = STATE_CONNECT_START
             bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(UUID_SPP)
@@ -149,6 +141,7 @@ class ObentoSensorService : Service() {
                     state = STATE_CONNECT_FAILED
                     return false
                 }
+                return false
             }
         }
         return true
@@ -188,7 +181,7 @@ class ObentoSensorService : Service() {
                 Log.d("DEBUG_Service", result)
                 if (result[0] == '!') {
                     Log.d("DEBUG_Service", "Activity起動")
-                    val intent = Intent(applicationContext, MessagePushPlayActivity::class.java)
+                    val intent = Intent(this, MessagePushPlayActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     application.startActivity(intent)
 

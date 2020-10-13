@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 
-class SelectFaceFragment(private val parentPotion: Int, private val listener: MessageEditListener): Fragment(), SelectFaceImage{
-    val faceImageList: List<Int> = listOf(
+class SelectFaceFragment(private val parentPotion: Int, private val listener: MessageEditListener): Fragment() {
+    private val faceImageList: List<Int> = listOf(
         R.drawable.face_image_0,
         R.drawable.face_image_1,
         R.drawable.face_image_2,
@@ -108,6 +108,13 @@ class SelectFaceFragment(private val parentPotion: Int, private val listener: Me
         R.drawable.face_image_94
     )
 
+    private val selectFaceImage = object : SelectFaceImage {
+        override fun onImageSelect(resID: Int) {
+            listener.onFaceDataEdit(parentPotion, resID)
+            parentFragmentManager.beginTransaction().remove(this@SelectFaceFragment).commit()
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -122,7 +129,7 @@ class SelectFaceFragment(private val parentPotion: Int, private val listener: Me
 
         val backButton: MaterialButton = view.findViewById(R.id.button_face_select_close)
         val recyclerView: RecyclerView = view.findViewById(R.id.recyclerview_edit_face_image)
-        val adapter = EditFaceImageAdapter(faceImageList, this)
+        val adapter = EditFaceImageAdapter(faceImageList, selectFaceImage)
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager = GridLayoutManager(this.context, 5, RecyclerView.VERTICAL, false)
@@ -130,10 +137,5 @@ class SelectFaceFragment(private val parentPotion: Int, private val listener: Me
         backButton.setOnClickListener {
             parentFragmentManager.beginTransaction().remove(this).commit()
         }
-    }
-
-    override fun onImageSelect(resID: Int) {
-        listener.onFaceDataEdit(parentPotion, resID)
-        parentFragmentManager.beginTransaction().remove(this).commit()
     }
 }

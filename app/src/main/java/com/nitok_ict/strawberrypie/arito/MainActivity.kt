@@ -8,7 +8,6 @@ import android.content.ServiceConnection
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.IBinder
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -80,7 +79,7 @@ class MainActivity : AppCompatActivity(){
         }
 
         retakingButton.setOnClickListener {
-            Intent(this, MessegeEditActivity::class.java).also { intent ->
+            Intent(this, MessageEditActivity::class.java).also { intent ->
                 startActivity(intent)
             }
         }
@@ -170,11 +169,11 @@ class MainActivity : AppCompatActivity(){
         message.setVoiceDir(this)
         val filePath = message.voiceMessage.toUri()
 
-        if(message.isSonzai(this)) { //TODO メッセージが記録されているかの確認の処理
+        if(message.isExusts(this)) {
             val mediaPlayer = MediaPlayer.create(this, filePath )
-            val saiseiTime = mediaPlayer.duration / 1000
+            val playTime = mediaPlayer.duration / 1000
             messageCard.visibility = View.VISIBLE
-            messagePlayTimeTextView.text = (saiseiTime.toString() + applicationContext.resources.getText(R.string.card_message_play_time_unit)) //TODO 再生時間を取得して格納する
+            messagePlayTimeTextView.text = (playTime.toString() + applicationContext.resources.getText(R.string.card_message_play_time_unit))
         } else {
             messageCard.visibility = View.GONE
         }

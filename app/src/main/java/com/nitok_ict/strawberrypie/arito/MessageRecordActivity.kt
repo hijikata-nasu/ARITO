@@ -8,9 +8,7 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
 import android.widget.Chronometer
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_message_record.*
 import java.io.File
@@ -26,11 +24,12 @@ class MessageRecordActivity : AppCompatActivity() {
 
         if (recordAudioPermission == PackageManager.PERMISSION_GRANTED) {
             //ActivityCompat.requestPermissions(callingActivity, arrayOf(Manifest.permission.RECORD_AUDIO), REQUEST_PERMISSON)
+            // TODO パーミッションの取得処理を書く
         }
         val chronometer: Chronometer = findViewById(R.id.chronometer)
 
         startBtn.setOnClickListener{
-            chronometer.setBase(SystemClock.elapsedRealtime()) //タイマーリセット
+            chronometer.base = SystemClock.elapsedRealtime() //タイマーリセット
             chronometer.start()  //タイマー開始
             startMediaRecord()  //録音開始
             Log.d("debag", "録音開始しました")
@@ -43,7 +42,7 @@ class MessageRecordActivity : AppCompatActivity() {
         }
 
         exitBtn.setOnClickListener{
-            Intent(this, MessegeEditActivity::class.java).also { intent ->
+            Intent(this, MessageEditActivity::class.java).also { intent ->
                 startActivity(intent)
             }
         }

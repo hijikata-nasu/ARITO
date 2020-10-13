@@ -10,17 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 
 class EditDataAdapter(private val faceDataList: MutableList<FaceData>, private val clickListener: ItemClickListener): RecyclerView.Adapter<EditDataAdapter.ViewHolder>() {
     class ViewHolder(view: View): RecyclerView.ViewHolder(view){
-        val faceImage: ImageView
-        val startTimeTextView: TextView
-        val endTimeTextView: TextView
-        val orderNumberTextView: TextView
-
-        init {
-            faceImage = view.findViewById(R.id.imageview_face_data)
-            startTimeTextView = view.findViewById(R.id.textview_start_time)
-            endTimeTextView = view.findViewById(R.id.textview_end_time)
-            orderNumberTextView = view.findViewById(R.id.textview_order_number)
-        }
+        val faceImage: ImageView = view.findViewById(R.id.imageview_face_data)
+        val startTimeTextView: TextView = view.findViewById(R.id.textview_start_time)
+        val endTimeTextView: TextView = view.findViewById(R.id.textview_end_time)
+        val orderNumberTextView: TextView = view.findViewById(R.id.textview_order_number)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

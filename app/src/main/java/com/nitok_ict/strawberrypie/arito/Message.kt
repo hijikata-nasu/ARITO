@@ -1,10 +1,7 @@
 package com.nitok_ict.strawberrypie.arito
 
-import android.R.attr.data
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.util.Log
-import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import java.io.BufferedReader
@@ -32,14 +29,11 @@ class Message{
         if (readFile.exists()){
             val mapper = jacksonObjectMapper()
             val json = readFile.bufferedReader().use(BufferedReader::readText)
-            faceDataList = mapper.readValue<MutableList<FaceData>>(json)
-
-            Log.d("DEBUG_read", faceDataList.toString())
-
-            return true
+            faceDataList = mapper.readValue(json)
         } else {
             return false
         }
+        return true
     }
 
     //保存されているファイルを削除する関数
@@ -50,11 +44,7 @@ class Message{
         }
     }
 
-    fun sortData(){         //開始時間順にソートする関数
-        faceDataList.sortBy { it.startTime }
-    }
-
-    fun isSonzai(context: Context): Boolean{
+    fun isExusts(context: Context): Boolean{
         val readFile = File(context.filesDir, "Message.json")
         return readFile.exists()
     }

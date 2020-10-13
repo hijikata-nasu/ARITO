@@ -11,9 +11,9 @@ import android.widget.TextView
 import androidx.core.net.toUri
 
 class MessagePlayActivity : AppCompatActivity() {
-    lateinit var faceImageView: ImageView
-    lateinit var mediaPlayer: MediaPlayer
-    lateinit var message: Message
+    private lateinit var faceImageView: ImageView
+    private lateinit var mediaPlayer: MediaPlayer
+    private lateinit var message: Message
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +54,7 @@ class MessagePlayActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    fun startShowImage(faceDataList: MutableList<FaceData>){
+    private fun startShowImage(faceDataList: MutableList<FaceData>){
         Thread {
             for (potion in 0 until faceDataList.size){
                 handler.post{setImage(potion)}
@@ -63,13 +63,9 @@ class MessagePlayActivity : AppCompatActivity() {
         }.start()
     }
 
-    private val handler: Handler = object : Handler() {
-        override fun handleMessage(msg: android.os.Message) {
-            super.handleMessage(msg)
-        }
-    }
+    private val handler: Handler = object : Handler() {}
 
-    fun setImage(position: Int){
+    private fun setImage(position: Int){
         faceImageView.setImageResource(message.faceDataList[position].resID)
     }
 }

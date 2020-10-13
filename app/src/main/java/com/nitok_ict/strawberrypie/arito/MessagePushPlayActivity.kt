@@ -2,6 +2,7 @@ package com.nitok_ict.strawberrypie.arito
 
 import android.media.MediaPlayer
 import android.os.Handler
+import android.util.Log
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
@@ -12,15 +13,14 @@ class MessagePushPlayActivity : AppCompatActivity() {
     private lateinit var message: Message
 
     private val handler: Handler = object : Handler() {
-        override fun handleMessage(msg: android.os.Message) {
-            super.handleMessage(msg)
-        }
     }
 
     override fun onResume() {
         super.onResume()
 
         this.setShowWhenLocked(true)
+
+        Log.d("DEBUG", "Activity起動")
 
         setContentView(R.layout.activity_message_play)
         faceImage = findViewById(R.id.imageview_push_play_face_image)
