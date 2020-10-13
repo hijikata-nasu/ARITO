@@ -170,6 +170,7 @@ class ObentoSensorService : Service() {
     fun isConnected():Boolean = state == STATE_CONNECTED
 
     fun startWaitLiftEvent(){
+        isWaiting = true
         Thread(
             Runnable {
                 val inputStream = bluetoothSocket.inputStream
@@ -226,6 +227,7 @@ class ObentoSensorService : Service() {
     }
 
     override fun onBind(intent: Intent): IBinder {
+        isWaiting = false
         return binder
     }
 
