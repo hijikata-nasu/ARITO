@@ -1,6 +1,8 @@
 package com.nitok_ict.strawberrypie.arito
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.media.MediaRecorder
 import android.os.Bundle
 import android.os.SystemClock
@@ -8,6 +10,8 @@ import android.util.Log
 import android.widget.Chronometer
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_message_record.*
 import java.io.File
 
@@ -17,7 +21,12 @@ class MessageRecordActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message_record)
-        Log.d("debag", "onCreateは起動しています")
+
+        val recordAudioPermission = ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.RECORD_AUDIO)
+
+        if (recordAudioPermission == PackageManager.PERMISSION_GRANTED) {
+            //ActivityCompat.requestPermissions(callingActivity, arrayOf(Manifest.permission.RECORD_AUDIO), REQUEST_PERMISSON)
+        }
         val chronometer: Chronometer = findViewById(R.id.chronometer)
 
         startBtn.setOnClickListener{

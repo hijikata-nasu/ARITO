@@ -6,12 +6,15 @@ import android.app.Service
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.*
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.getSystemService
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
@@ -38,16 +41,27 @@ class ObentoSensorService : Service() {
         const val STATE_CONNECTION_LOST = 4
         const val STATE_DISCONNECT_START = 5
         const val STATE_DISCONNECTED = 6
+
+        const val SERVICE_IS_RUNNING = "ObentoSensorService_is_running"
+
+        fun createIntent(context: Context) = Intent(context, ObentoSensorService::class.java)
+
+        fun isRunning(context: Context): Boolean{
+            return LocalBroadcastManager.getInstance(context).sendBroadcast(Intent(SERVICE_IS_RUNNING)
+            )
+        }
+    }
+
+    private val localBroadcastManager by lazy { LocalBroadcastManager.getInstance(applicationContext) }
+
+    private val broadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+        }
     }
 
     private var state: Int = STATE_NONE
     private lateinit var bluetoothSocket: BluetoothSocket   //ソケットの設定
-
-    private var outputStream: OutputStream? = null
-    private var inputStream: InputStream? = null
-    private val buffer: ByteArray = ByteArray(1024)
-
-    var handler: Handler? = null
+    private var isWaiting = false
 
     /*デバイスの電池残量を調べる
     * 通信失敗した場合 true
@@ -60,18 +74,14 @@ class ObentoSensorService : Service() {
             return true
         }
         else {
-            outputStream = bluetoothSocket.outputStream
-            inputStream = bluetoothSocket.inputStream
+            val outputStream = bluetoothSocket.outputStream
+            val inputStream = bluetoothSocket.inputStream
+            val buffer = ByteArray(1024)
 
-            outputStream?.write("1".toByteArray())
+            outputStream.write("1".toByteArray())
 
-            Log.d("DEBUG", inputStream.toString())
-
-            val inputByte: Int = inputStream!!.read(buffer)
+            val inputByte: Int = inputStream.read(buffer)
             val result = String(buffer, 0, inputByte)
-            Log.d("DEBUG", "通信成功")
-
-            Log.d("DEBUG", result)
 
             return when (result) {
                 "L" -> {
@@ -95,29 +105,21 @@ class ObentoSensorService : Service() {
     * お弁当箱が載っているときは　 false を返す
     * デバイスとの通信が失敗した時true を返す*/
     fun isDetectLift():Boolean{
+        //Blutooth接続が確立されていないときにtrueを返す
+        if (state != STATE_CONNECTED)return true
 
-        if (state == STATE_CONNECTED)return true
+        val outputStream = bluetoothSocket.outputStream
+        val inputStream = bluetoothSocket.inputStream
+        val buffer = ByteArray(1024)
 
-        outputStream = bluetoothSocket.outputStream
-        inputStream = bluetoothSocket.inputStream
+        outputStream.write("2".toByteArray())
 
-        outputStream?.write("2".toByteArray())
-
-        val inputByte: Int = inputStream!!.read(buffer)
+        val inputByte: Int = inputStream.read(buffer)
         val result = String(buffer, 0, inputByte)
-        Log.d("DEBUG", "通信成功")
-
-        Log.d("DEBUG", result)
 
         return when (result) {
-            "1" -> {
-                Log.d("DEBUG", "お弁当持ち上げられてるらしい")
-                true
-            }
-            "2" -> {
-                Log.d("DEBUG", "お弁当持ち上げられてないらしい")
-                false
-            }
+            "1" -> true
+            "2" -> false
             else -> {
                 Log.d("DEBUG", "読み込み失敗したンゴ")
                 true
@@ -152,7 +154,7 @@ class ObentoSensorService : Service() {
         return true
     }
 
-    fun bluetoothDisconnect(){
+    private fun bluetoothDisconnect(){
         if (state != STATE_DISCONNECTED) {
             try {
                 state = STATE_DISCONNECT_START
@@ -167,20 +169,33 @@ class ObentoSensorService : Service() {
 
     fun isConnected():Boolean = state == STATE_CONNECTED
 
-    fun startEventListener(){
-        //ここに再生画面を起動するコードを書く TODO
+    fun startWaitLiftEvent(){
         Thread(
             Runnable {
-                (0..15).map {
-                    Thread.sleep(1000)
+                val inputStream = bluetoothSocket.inputStream
+                val buffer = ByteArray(1024)
+                var inputByte: Int
+                var result: String
+
+                Log.d("DEBUG_Service", "スレッド開始")
+                do {
+                    inputByte = inputStream.read(buffer)
+                    result = String(buffer, 0, inputByte)
+                } while (inputByte == -1 && isWaiting)
+
+                Log.d("DEBUG_Service", result)
+                if (result[0] == '!') {
+                    Log.d("DEBUG_Service", "Activity起動")
+                    //　TODO Activity起動処理を書く
+                    bluetoothDisconnect()
+                    stopSelf()
                 }
-                bluetoothDisconnect()
-                stopSelf()
             }
         ).start()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        //forgroundService
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val name = "Service"
         val id = "casareal_foreground"
@@ -207,6 +222,7 @@ class ObentoSensorService : Service() {
 
     override fun onCreate() {
         super.onCreate()
+        localBroadcastManager.registerReceiver(broadcastReceiver, IntentFilter(SERVICE_IS_RUNNING))
     }
 
     override fun onBind(intent: Intent): IBinder {
@@ -214,7 +230,8 @@ class ObentoSensorService : Service() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
+        localBroadcastManager.unregisterReceiver(broadcastReceiver)
         bluetoothDisconnect()
+        super.onDestroy()
     }
 }

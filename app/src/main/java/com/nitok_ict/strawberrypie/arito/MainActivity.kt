@@ -8,9 +8,8 @@ import android.content.ServiceConnection
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.IBinder
-import android.os.Messenger
+import android.util.Log
 import android.view.View
-import android.webkit.RenderProcessGoneDetail
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -26,20 +25,19 @@ class MainActivity : AppCompatActivity(){
         private const val macAddress: String = "00:06:66:84:E3:FB"
     }
 
-
     //ライフサイクル間でつかうView
-    lateinit var bTConnectionTextView: TextView
-    lateinit var batteryLifeTextView: TextView
-    lateinit var messagePlayTimeTextView: TextView
+    private lateinit var bTConnectionTextView: TextView
+    private lateinit var batteryLifeTextView: TextView
+    private lateinit var messagePlayTimeTextView: TextView
 
     //MaterialCardView
-    lateinit var messageCard: MaterialCardView
+    private lateinit var messageCard: MaterialCardView
 
     //bindServiceのインスタンスを格納するオブジェクト
     private lateinit var obentoSensorService: ObentoSensorService
     private var isServiceReady = false
 
-    //ObentoSensorServiceと良い感じに通信する為のインターフェースを実装した関数オブジェクト
+    //ObentoSensorServiceと良い感じに通信する為のインターフェースを実装したオブジェクト式
     private val connection = object : ServiceConnection {
         //Serviceとの接続が確立されたときに呼び出される
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
@@ -131,9 +129,11 @@ class MainActivity : AppCompatActivity(){
                 val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
                 this.startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT)
             } else {
-                //Bluetooth通信が可能な時
-                Intent(this, ObentoSensorService::class.java).also { intent ->
-                    startForegroundService(intent)
+                //Bluetooth通信でServiceが起動していないとき起動する
+                if (!ObentoSensorService.isRunning(this)) {
+                    Intent(this, ObentoSensorService::class.java).also { intent ->
+                        startForegroundService(intent)
+                    }
                 }
             }
         }
@@ -187,7 +187,7 @@ class MainActivity : AppCompatActivity(){
     }
 
     override fun onDestroy() {
-        obentoSensorService.startEventListener()
+        obentoSensorService.startWaitLiftEvent()
         super.onDestroy()
     }
 
