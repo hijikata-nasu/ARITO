@@ -3,8 +3,8 @@ package com.nitok_ict.strawberrypie.arito
 import android.content.Context
 import androidx.lifecycle.ViewModel
 
-class MessageStoreViewModel: ViewModel() {
-    private val message = Message()
+class MessageStoreViewModel(): ViewModel() {
+    private lateinit var message: Message
 
     fun getFaceData(): MutableList<FaceData>{
         return message.faceDataList
@@ -31,12 +31,12 @@ class MessageStoreViewModel: ViewModel() {
         }
     }
 
-    fun saveToFile(context: Context){
-        message.deleteFile(context)
-        message.saveToFile(context)
+    fun saveToFile(){
+        message.saveToFile()
     }
 
     fun readFromFile(context: Context){
-        message.readFromFile(context)
+        message = Message(context)
+        message.readFromFile()
     }
 }

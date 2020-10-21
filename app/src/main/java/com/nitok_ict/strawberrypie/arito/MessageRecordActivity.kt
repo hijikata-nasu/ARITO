@@ -3,18 +3,22 @@ package com.nitok_ict.strawberrypie.arito
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
 import android.media.MediaRecorder
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
 import android.widget.Chronometer
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_message_record.*
 import java.io.File
 
 class MessageRecordActivity : AppCompatActivity() {
-    val message = Message()
+    companion object{
+        const val REQUEST_PERMISSION = 1
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,26 +26,37 @@ class MessageRecordActivity : AppCompatActivity() {
 
         val recordAudioPermission = ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.RECORD_AUDIO)
 
-        if (recordAudioPermission == PackageManager.PERMISSION_GRANTED) {
-            //ActivityCompat.requestPermissions(callingActivity, arrayOf(Manifest.permission.RECORD_AUDIO), REQUEST_PERMISSON)
-            // TODO パーミッションの取得処理を書く
+        if (recordAudioPermission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this , arrayOf(Manifest.permission.RECORD_AUDIO), REQUEST_PERMISSION)
         }
+
+        var isRecording = false
         val chronometer: Chronometer = findViewById(R.id.chronometer)
 
-        startBtn.setOnClickListener{
-            chronometer.base = SystemClock.elapsedRealtime() //タイマーリセット
-            chronometer.start()  //タイマー開始
-            startMediaRecord()  //録音開始
-            Log.d("debag", "録音開始しました")
-        }
+        recordButton.setOnClickListener{
+            if (isRecording){
+                recordButton.backgroundTintList = ColorStateList.valueOf(getColor(R.color.white))
+                recordButton.imageTintList = ColorStateList.valueOf(getColor(R.color.red))
+                recordButton.setImageResource(R.drawable.ic_baseline_fiber_manual_record_24)
+                recordDoneButton.isEnabled = true
+                chronometer.stop()  //タイマー停止
+                stopRecord()  //録音終了
+                Log.d("debag", "録音停止しました")
+                isRecording = false
+            } else {
+                recordButton.backgroundTintList = ColorStateList.valueOf(getColor(R.color.red))
+                recordButton.imageTintList = ColorStateList.valueOf(getColor(R.color.white))
+                recordButton.setImageResource(R.drawable.ic_baseline_stop_24)
+                recordDoneButton.isEnabled = false
+                chronometer.base = SystemClock.elapsedRealtime() //タイマーリセット
+                chronometer.start()  //タイマー開始
+                startMediaRecord()  //録音開始
+                Log.d("debag", "録音開始しました")
+                isRecording = true
 
-        stopBtn.setOnClickListener{
-            chronometer.stop()  //タイマー停止
-            stopRecord()  //録音終了
-            Log.d("debag", "録音停止しました")
+            }
         }
-
-        exitBtn.setOnClickListener{
+        recordDoneButton.setOnClickListener {
             Intent(this, MessageEditActivity::class.java).also { intent ->
                 startActivity(intent)
             }
@@ -50,30 +65,28 @@ class MessageRecordActivity : AppCompatActivity() {
 
     //録音
     // 録音用のメディアレコーダークラス
-    private lateinit var mediarecorder: MediaRecorder
+    private lateinit var mediaRecorder: MediaRecorder
 
     private fun startMediaRecord() {
-        message.setVoiceDir(this)
+        val message = Message(this)
+
         try {
-            val mediaFile: File = message.voiceMessage
-            if (mediaFile.exists()) {
-                //ファイルが存在する場合は削除する
-                Log.d("debag", "録音したファイルが存在しています")
-                mediaFile.delete()
-            }
-            mediarecorder = MediaRecorder()
+            val mediaFile: File = message.voiceMessageFile
+            //ファイルが存在する場合は削除する
+            message.deleteFile()
+            mediaRecorder = MediaRecorder()
             //マイクからの音声を録音する
-            mediarecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
+            mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
             //ファイルへの出力フォーマット DEFAULTにするとwavが扱えるはず
-            mediarecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT)
+            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT)
             //音声のエンコーダーも合わせてdefaultにする
-            mediarecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
+            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
             //ファイルの保存先を指定
-            mediarecorder.setOutputFile(mediaFile)
+            mediaRecorder.setOutputFile(mediaFile)
             //録音の準備をする
-            mediarecorder.prepare()
+            mediaRecorder.prepare()
             //録音開始
-            mediarecorder.start()
+            mediaRecorder.start()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -81,11 +94,10 @@ class MessageRecordActivity : AppCompatActivity() {
 
     //停止
     private fun stopRecord() {
-        Log.d("debag", "stopRecordは起動しています")
         try {
             //録音停止
-            mediarecorder.stop()
-            mediarecorder.reset()
+            mediaRecorder.stop()
+            mediaRecorder.reset()
         } catch (e: Exception) {
             e.printStackTrace()
         }

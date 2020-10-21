@@ -148,7 +148,7 @@ class ObentoSensorService : Service() {
     }
 
     private fun bluetoothDisconnect(){
-        if (state != STATE_DISCONNECTED) {
+        if (state == STATE_CONNECTED) {
             try {
                 state = STATE_DISCONNECT_START
                 bluetoothSocket.close()
@@ -164,32 +164,34 @@ class ObentoSensorService : Service() {
 
     fun startWaitLiftEvent(){
         Log.d("DEBUG_Service", "startWaitEvent")
-        isWaiting = true
-        Thread(
-            Runnable {
-                val inputStream = bluetoothSocket.inputStream
-                val buffer = ByteArray(1024)
-                var inputByte: Int
-                var result: String
+        if (!isWaiting){
+            isWaiting = true
+            Thread(
+                Runnable {
+                    val inputStream = bluetoothSocket.inputStream
+                    val buffer = ByteArray(1024)
+                    var inputByte: Int
+                    var result: String
 
-                Log.d("DEBUG_Service", "スレッド開始")
-                do {
-                    inputByte = inputStream.read(buffer)
-                    result = String(buffer, 0, inputByte)
-                } while (inputByte == -1)
+                    Log.d("DEBUG_Service", "スレッド開始")
+                    do {
+                        inputByte = inputStream.read(buffer)
+                        result = String(buffer, 0, inputByte)
+                    } while (inputByte == -1 && isWaiting)
 
-                Log.d("DEBUG_Service", result)
-                if (result[0] == '!') {
-                    Log.d("DEBUG_Service", "Activity起動")
-                    val intent = Intent(this, MessagePushPlayActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    application.startActivity(intent)
-
-                    bluetoothDisconnect()
-                    stopSelf()
+                    Log.d("DEBUG_Service", result)
+                    if (result[0] == '!') {
+                        Log.d("DEBUG_Service", "Activity起動中")
+                        Intent(this, MessagePushPlayActivity::class.java).also {intent ->
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                            startActivity(intent)
+                        }
+                        bluetoothDisconnect()
+                        stopSelf()
+                    }
                 }
-            }
-        ).start()
+            ).start()
+        }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

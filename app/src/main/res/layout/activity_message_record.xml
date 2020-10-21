@@ -7,6 +7,38 @@
     android:layout_height="match_parent"
     tools:context=".MessageRecordActivity">
 
+  <com.google.android.material.button.MaterialButton
+      android:id="@+id/button_face_edit_exit"
+      android:layout_width="72dp"
+      android:layout_height="48dp"
+      android:layout_marginStart="8dp"
+      android:layout_marginTop="8dp"
+      android:insetLeft="0dp"
+      android:insetTop="0dp"
+      android:insetRight="0dp"
+      android:insetBottom="0dp"
+      android:visibility="gone"
+      app:icon="@drawable/ic_baseline_arrow_back_24"
+      app:iconGravity="textEnd"
+      app:iconPadding="0dp"
+      app:iconSize="40dp"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+
+  <com.google.android.material.button.MaterialButton
+      android:id="@+id/recordDoneButton"
+      android:layout_width="wrap_content"
+      android:layout_height="36dp"
+      android:layout_marginTop="8dp"
+      android:layout_marginEnd="8dp"
+      android:insetLeft="0dp"
+      android:insetTop="0dp"
+      android:insetRight="0dp"
+      android:insetBottom="0dp"
+      android:text="@string/button_record_done"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+    app:cornerRadius="18dp" />
   <Chronometer
       android:id="@+id/chronometer"
       android:layout_width="wrap_content"
@@ -31,37 +63,17 @@
       app:layout_constraintTop_toTopOf="parent" />
 
   <com.google.android.material.floatingactionbutton.FloatingActionButton
-      android:id="@+id/startBtn"
-      android:layout_width="100dp"
-      android:layout_height="wrap_content"
-      android:layout_marginStart="30dp"
-      android:layout_marginBottom="64dp"
-      android:clickable="true"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:rippleColor="#FFFFFF"
-      app:srcCompat="@drawable/ic_baseline_fiber_manual_record_24" />
-
-  <com.google.android.material.floatingactionbutton.FloatingActionButton
-      android:id="@+id/stopBtn"
+      android:id="@+id/recordButton"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginBottom="64dp"
       android:clickable="true"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toStartOf="@+id/exitBtn"
-      app:layout_constraintStart_toEndOf="@+id/startBtn"
-      app:srcCompat="@drawable/ic_baseline_stop_24" />
-
-  <com.google.android.material.floatingactionbutton.FloatingActionButton
-      android:id="@+id/exitBtn"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginEnd="30dp"
-      android:layout_marginBottom="64dp"
-      android:clickable="true"
+      app:borderWidth="1dp"
+      app:tint="@color/red"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:srcCompat="@drawable/ic_baseline_done_24" />
+      app:layout_constraintStart_toStartOf="parent"
+      app:backgroundTint="#FFFFFF"
+      app:srcCompat="@drawable/ic_baseline_fiber_manual_record_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

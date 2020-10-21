@@ -14,6 +14,7 @@
         android:layout_marginTop="32dp"
         android:text="@string/app_name"
         android:textSize="36sp"
+        android:textColor="@color/colorAkabeni"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,6 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:layout_marginHorizontal="8dp"
+        app:cardBackgroundColor="@color/hashi"
         app:cardCornerRadius="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +56,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginHorizontal="8dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -142,6 +145,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         app:cardCornerRadius="4dp"
+        app:cardBackgroundColor="@color/hashi"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/card_bluetooth">
@@ -162,7 +166,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginHorizontal="8dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -207,7 +212,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.35"
-                        android:text="@string/card_message_retaking"
+                        android:text="@string/card_message_reedit"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                     <View

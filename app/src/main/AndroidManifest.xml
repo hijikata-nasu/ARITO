@@ -8,6 +8,9 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
 
     <application
         android:allowBackup="true"
@@ -15,23 +18,27 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".MessageEditActivity"/>
-
+        android:theme="@style/LightTheme">
         <service
             android:name=".ObentoSensorService"
             android:description="@string/manifest_service_description"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="connectedDevice|mediaProjection" />
-
-        <activity android:name=".MessageRecordActivity" >
-        </activity>
+        <activity android:name=".MessageRecordActivity"/>
+        <activity android:name=".MessageEditActivity"/>
         <activity android:name=".MessagePlayActivity"/>
+        <activity
+            android:name=".MessagePushPlayActivity"
+            android:showOnLockScreen="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -70,7 +70,7 @@ class MessageEditActivity : AppCompatActivity() {
             }
         }
         doneButton.setOnClickListener {
-            viewModel.saveToFile(this)
+            viewModel.saveToFile()
             Intent(this, MainActivity::class.java).also { intent ->
                 startActivity(intent)
             }

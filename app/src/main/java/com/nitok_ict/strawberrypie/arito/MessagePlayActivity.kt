@@ -22,45 +22,32 @@ class MessagePlayActivity : AppCompatActivity() {
         faceImageView = findViewById(R.id.imageview_face)
 
         val startButton : View = findViewById(R.id.startBtn)
-        val exitButton : View = findViewById(R.id.exitBtn)
-        val messageStatus : TextView = findViewById(R.id.messageStatus)
+        message = Message(this)
+        message.readFromFile()
 
-        message = Message()
-        message.readFromFile(this)
-        message.setVoiceDir(this)
-
-        val filePath = message.voiceMessage.toUri()
+        val filePath = message.voiceMessageFile.toUri()
 
         //再生する音声ファイルの設定
         mediaPlayer = MediaPlayer.create(this, filePath )
         mediaPlayer.isLooping = false
-        mediaPlayer.pause()
-
-        messageStatus.setText(R.string.stopped_message_status)
-
-        exitButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
 
         startButton.setOnClickListener {
+            it.isEnabled = false
             mediaPlayer.start()  //再生
-            startShowImage(message.faceDataList)
+            Thread {
+                for (potion in 0 until message.faceDataList.size){
+                    handler.post{setImage(potion)}
+                    Thread.sleep((message.faceDataList[potion].endTime - message.faceDataList[potion].startTime).toLong() * 1000)
+                }
+                handler.post{faceImageView.setImageDrawable(null)}
+                handler.post{it.isEnabled = true}
+            }.start()
         }
     }
 
     override fun onDestroy() {
         mediaPlayer.release()
         super.onDestroy()
-    }
-
-    private fun startShowImage(faceDataList: MutableList<FaceData>){
-        Thread {
-            for (potion in 0 until faceDataList.size){
-                handler.post{setImage(potion)}
-                Thread.sleep((faceDataList[potion].endTime - faceDataList[potion].startTime).toLong() * 1000)
-            }
-        }.start()
     }
 
     private val handler: Handler = object : Handler() {}

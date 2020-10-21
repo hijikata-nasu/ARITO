@@ -11,6 +11,10 @@ import com.google.android.material.button.MaterialButton
 
 class SelectFaceFragment(private val parentPotion: Int, private val listener: MessageEditListener): Fragment() {
     private val faceImageList: List<Int> = listOf(
+        R.drawable.face_image_test_0,
+        R.drawable.face_image_test_1,
+        R.drawable.face_image_test_2,
+        R.drawable.face_image_test_3,
         R.drawable.face_image_0,
         R.drawable.face_image_1,
         R.drawable.face_image_2,

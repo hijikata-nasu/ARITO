@@ -1,10 +1,12 @@
 package com.nitok_ict.strawberrypie.arito
 
+import android.Manifest
 import android.bluetooth.BluetoothAdapter
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.IBinder
@@ -12,6 +14,8 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
@@ -28,6 +32,7 @@ class MainActivity : AppCompatActivity(){
     private lateinit var bTConnectionTextView: TextView
     private lateinit var batteryLifeTextView: TextView
     private lateinit var messagePlayTimeTextView: TextView
+    private lateinit var connectButton: MaterialButton
 
     //MaterialCardView
     private lateinit var messageCard: MaterialCardView
@@ -43,10 +48,42 @@ class MainActivity : AppCompatActivity(){
             val binder = service as ObentoSensorService.ObentoSensorBinder
             obentoSensorService = binder.getService()
             isServiceReady = true
+            updateSensorState()
         }
         //Serviceとの接続が失われた時に呼び出される
         override fun onServiceDisconnected(name: ComponentName?) {
             isServiceReady = false
+        }
+    }
+
+    private fun updateSensorState(){
+        if (isServiceReady){
+            if (obentoSensorService.isConnected()){
+                bTConnectionTextView.setText(R.string.card_sensor_bluetooth_connected)
+                if (obentoSensorService.isBatteryLow()) {
+                    batteryLifeTextView.setText(R.string.card_sensor_battery_life_low)
+                } else {
+                    batteryLifeTextView.setText(R.string.card_sensor_battery_life_high)
+                }
+                connectButton.visibility = View.GONE
+            } else {
+                bTConnectionTextView.setText(R.string.card_sensor_bluetooth_unconnected)
+                batteryLifeTextView.setText(R.string.card_sensor_battery_life_unknown)
+                connectButton.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun updateMessageState(){
+        val filePath = Message(this).voiceMessageFile.toUri()
+
+        if(Message.isExists(this)) {
+            val mediaPlayer = MediaPlayer.create(this, filePath )
+            val playTime = mediaPlayer.duration / 1000
+            messageCard.visibility = View.VISIBLE
+            messagePlayTimeTextView.text = (playTime.toString() + applicationContext.resources.getText(R.string.card_message_play_time_unit))
+        } else {
+            messageCard.visibility = View.GONE
         }
     }
 
@@ -66,7 +103,7 @@ class MainActivity : AppCompatActivity(){
         val messageRecordButton: MaterialButton = findViewById(R.id.record_message_button)
         val retakingButton: MaterialButton = findViewById(R.id.retaking_button)
         val messagePlayButton: MaterialButton = findViewById(R.id.message_play_button)
-        val connectButton: MaterialButton = findViewById(R.id.reconnection_button)
+        connectButton = findViewById(R.id.reconnection_button)
 
         //BluetoothAdapter
         val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
@@ -97,24 +134,22 @@ class MainActivity : AppCompatActivity(){
         } else {
             //接続ボタンのクリックリスナーを設定
             connectButton.setOnClickListener {
+                //権限がない場合に権限をリクエスト
+                val locationPermission = ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_COARSE_LOCATION)
+                if (locationPermission != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(
+                        this ,
+                        arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
+                        MessageRecordActivity.REQUEST_PERMISSION
+                    )
+                }
+
                 //接続試行中はボタンをグレーアウトし無効化
                 it.isEnabled = false
                 //接続を試行　失敗した場合はfalseが帰ってくるので else へ
                 if (obentoSensorService.bluetoothConnect(bluetoothAdapter.getRemoteDevice(macAddress))){
-                    //接続が成功したことを伝えるToast
-                    Toast.makeText(this, R.string.toast_bluetooth_connection_success, Toast.LENGTH_LONG).show()
-                    //接続済みと表示
-                    bTConnectionTextView.setText(R.string.card_sensor_bluetooth_connected)
-                    //デバイスのバッテリーの状態を確認
-                    if (obentoSensorService.isBatteryLow()) {
-                        //残りわずかと表示
-                        batteryLifeTextView.setText(R.string.card_sensor_battery_life_low)
-                    } else {
-                        //OKと表示
-                        batteryLifeTextView.setText(R.string.card_sensor_battery_life_high)
-                    }
-                    //接続済みになり必要なくなったのでボタンを非表示にする
-                    it.visibility = View.GONE
+                    Toast.makeText(this, R.string.toast_bluetooth_connection_success, Toast.LENGTH_LONG).show()     //接続が成功したことを伝えるToast
+                    updateSensorState()         //センサーの状態を更新
                 } else {
                     //接続が失敗したと伝えるToast
                     Toast.makeText(this, R.string.toast_bluetooth_connection_failure, Toast.LENGTH_LONG).show()
@@ -140,43 +175,18 @@ class MainActivity : AppCompatActivity(){
 
     override fun onStart() {
         super.onStart()
-        //起動しているObentoSensorService
+        //起動しているObentoSensorServiceにバインドする
         Intent(this, ObentoSensorService::class.java).also { intent ->
             bindService(intent, connection, Context.BIND_AUTO_CREATE)
         }
     }
 
-    override fun onRestart() {
-        super.onRestart()
-        if (isServiceReady){
-            if (obentoSensorService.isConnected()){
-                bTConnectionTextView.setText(R.string.card_sensor_bluetooth_connected)
-                if (obentoSensorService.isBatteryLow()) {
-                    batteryLifeTextView.setText(R.string.card_sensor_battery_life_low)
-                } else {
-                    batteryLifeTextView.setText(R.string.card_sensor_battery_life_high)
-                }
-            } else {
-                bTConnectionTextView.setText(R.string.card_sensor_bluetooth_unconnected)
-            }
-        }
-    }
-
     override fun onResume() {
         super.onResume()
-
-        val message = Message()
-        message.setVoiceDir(this)
-        val filePath = message.voiceMessage.toUri()
-
-        if(message.isExusts(this)) {
-            val mediaPlayer = MediaPlayer.create(this, filePath )
-            val playTime = mediaPlayer.duration / 1000
-            messageCard.visibility = View.VISIBLE
-            messagePlayTimeTextView.text = (playTime.toString() + applicationContext.resources.getText(R.string.card_message_play_time_unit))
-        } else {
-            messageCard.visibility = View.GONE
-        }
+        //再生予定のメッセージのカードの内容を更新するコード
+        updateMessageState()
+        //センサーの状態のカードの内容を更新するコード
+        updateSensorState()
     }
 
     override fun onStop() {
@@ -186,7 +196,11 @@ class MainActivity : AppCompatActivity(){
     }
 
     override fun onDestroy() {
-        obentoSensorService.startWaitLiftEvent()
+        if (Message.isExists(this)){
+            obentoSensorService.startWaitLiftEvent()
+        } else {
+            obentoSensorService.stopSelf()
+        }
         super.onDestroy()
     }
 
