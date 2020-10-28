@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
+import kotlinx.android.synthetic.main.activity_messege_edit.view.*
 
 class SelectFaceFragment(private val parentPotion: Int, private val listener: MessageEditListener): Fragment() {
     private val faceImageList: List<Int> = listOf(

@@ -20,6 +20,7 @@
     <string name="toast_bluetooth_connection_success">接続成功</string>
     <string name="toast_bluetooth_unsupported">このデバイスはBluetoothに対応していないません。\nアプリケーションを終了します。</string>
     <string name="toast_need_bluetooth">このアプリはBluetoothを使います。\nアプリケーションを終了します。</string>
+    <string name="toast_need_overlay_permission">このアプリは他のアプリの上に表示させてる必要があります。\nアプリケーションを終了します。</string>
     <string name="manifest_service_description">外部センサーとの通信及びアクティビティの起動を行うためのService</string>
     <string name="card_message_play_time_unit">秒</string>
 

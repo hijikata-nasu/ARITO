@@ -8,8 +8,10 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
+import android.provider.Settings
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -24,6 +26,8 @@ class MainActivity : AppCompatActivity(){
     companion object{
         //Bluetoothのリクエストコード
         private const val REQUEST_ENABLE_BT: Int = 1
+
+        private const val OVERLAY_PERMISSION_REQUEST_CODE: Int = 0
         //デバイスのMACアドレス
         private const val macAddress: String = "00:06:66:84:E3:FB"
     }
@@ -127,6 +131,13 @@ class MainActivity : AppCompatActivity(){
             }
         }
 
+        //SYSTEM_ALERT_WINDOWパーミッションが使えるかの処理
+        if(!Settings.canDrawOverlays(this)){
+            Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName")).also {intent ->
+                startActivityForResult(intent, OVERLAY_PERMISSION_REQUEST_CODE)
+            }
+        }
+
         //Bluetoothが端末で使えるかの確認
         if (bluetoothAdapter == null) {
             Toast.makeText(this, R.string.toast_bluetooth_unsupported, Toast.LENGTH_LONG).show()
@@ -213,7 +224,12 @@ class MainActivity : AppCompatActivity(){
                 this.moveTaskToBack(true)
             }
         }
-
+        if (requestCode == OVERLAY_PERMISSION_REQUEST_CODE){
+            if (!Settings.canDrawOverlays(this)){
+                Toast.makeText(this, R.string.toast_need_overlay_permission, Toast.LENGTH_LONG).show()
+                this.moveTaskToBack(true)
+            }
+        }
     }
 }
 
