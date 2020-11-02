@@ -1,6 +1,7 @@
 package com.nitok_ict.strawberrypie.arito
 
 import android.Manifest
+import android.app.ProgressDialog
 import android.bluetooth.BluetoothAdapter
 import android.content.ComponentName
 import android.content.Context
@@ -13,6 +14,7 @@ import android.os.Bundle
 import android.os.IBinder
 import android.provider.Settings
 import android.view.View
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -95,6 +97,9 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val progressBar: ProgressBar = findViewById(R.id.progress_bluetooth_connect)
+        progressBar.visibility = View.GONE
+
         //各種テキストビューの初期化
         bTConnectionTextView = findViewById(R.id.textview_BTconnection)
         batteryLifeTextView = findViewById(R.id.textview_batterylife)
@@ -155,8 +160,9 @@ class MainActivity : AppCompatActivity(){
                     )
                 }
 
-                //接続試行中はボタンをグレーアウトし無効化
+                //接続試行中はボタンをグレーアウトし無効化し、プログレスバーを表示
                 it.isEnabled = false
+                progressBar.visibility = View.VISIBLE
                 //接続を試行　失敗した場合はfalseが帰ってくるので else へ
                 if (obentoSensorService.bluetoothConnect(bluetoothAdapter.getRemoteDevice(macAddress))){
                     Toast.makeText(this, R.string.toast_bluetooth_connection_success, Toast.LENGTH_LONG).show()     //接続が成功したことを伝えるToast
@@ -165,8 +171,9 @@ class MainActivity : AppCompatActivity(){
                     //接続が失敗したと伝えるToast
                     Toast.makeText(this, R.string.toast_bluetooth_connection_failure, Toast.LENGTH_LONG).show()
                 }
-                //ボタンのグレーアウトと無効化を解除　しかし、接続に成功したときは多分意味ない
+                //ボタンのグレーアウトと無効化を解除し、プログレスバーを非表示　しかし、接続に成功したときは多分意味ない
                 it.isEnabled = true
+                progressBar.visibility = View.GONE
             }
 
             //Bluetoothがオフになっているときオンにしてもらう

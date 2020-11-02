@@ -28,7 +28,6 @@ class MessagePushPlayActivity : AppCompatActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         this.setShowWhenLocked(true)
         this.setTurnScreenOn(true)
-        Log.d("DEBUG", "Activity起動")
 
         faceImage = findViewById(R.id.imageview_push_play_face_image)
         message = Message(applicationContext)
@@ -51,6 +50,6 @@ class MessagePushPlayActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        message.deleteFile()
+        //message.deleteFile()
     }
 }
