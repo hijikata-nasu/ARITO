@@ -46,6 +46,8 @@
                     android:insetRight="0dp"
                     android:insetBottom="0dp"
                     android:layout_margin="8dp"
+                    android:backgroundTint="@color/hako"
+                    android:textColor="@color/nori"
                     android:text="@string/button_edit_done"
                     app:cornerRadius="18dp" />
             </LinearLayout>
@@ -70,8 +72,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
+                android:backgroundTint="@color/hako"
+                android:textColor="@color/nori"
                 android:text="@string/button_facedeta_add"
                 app:icon="@drawable/ic_baseline_add_24"
+                app:iconTint="@color/nori"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

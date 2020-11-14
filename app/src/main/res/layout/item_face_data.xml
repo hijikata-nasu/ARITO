@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="2dp"
         android:layout_marginHorizontal="4dp"
+        android:backgroundTint="@color/kome"
         app:cardCornerRadius="4dp">
         <LinearLayout
             android:layout_width="match_parent"

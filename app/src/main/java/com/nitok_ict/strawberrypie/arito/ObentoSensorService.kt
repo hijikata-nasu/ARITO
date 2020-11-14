@@ -10,7 +10,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Binder
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -166,6 +168,16 @@ class ObentoSensorService : Service() {
         Log.d("DEBUG_Service", "startWaitEvent")
         if (!isWaiting){
             isWaiting = true
+            Handler(Looper.getMainLooper()).postDelayed(Runnable {
+                Log.d("DEBUG_Service", "Activity起動中")
+                Intent(this, MessagePushPlayActivity::class.java).also {intent ->
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                }
+                bluetoothDisconnect()
+                stopSelf()
+            }, 5000)
+            /*
             Thread(
                 Runnable {
                     val inputStream = bluetoothSocket.inputStream
@@ -191,6 +203,7 @@ class ObentoSensorService : Service() {
                     }
                 }
             ).start()
+            */
         }
     }
 

@@ -4,13 +4,13 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/hako</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/ume</item>
     </style>
     <style name="LightTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/hako</item>
-        <item name="colorPrimaryDark">@color/hako</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/kome</item>
+        <item name="colorPrimaryDark">@color/nori</item>
+        <item name="colorAccent">@color/ume</item>
     </style>
 
 

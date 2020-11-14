@@ -35,6 +35,8 @@
       android:insetTop="0dp"
       android:insetRight="0dp"
       android:insetBottom="0dp"
+      android:backgroundTint="@color/hako"
+      android:textColor="@color/nori"
       android:text="@string/button_record_done"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintTop_toTopOf="parent"

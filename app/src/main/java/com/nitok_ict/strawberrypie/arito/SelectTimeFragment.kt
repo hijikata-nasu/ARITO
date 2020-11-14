@@ -8,8 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
 
-class SelectTimeFragment(private val position: Int, private val listener: MessageEditListener) : Fragment(){
-    private var displayTime: Int = 5
+class SelectTimeFragment(private val position: Int, private var displayTime: Int, private val listener: MessageEditListener) : Fragment(){
 
     override fun onCreateView(
         inflater: LayoutInflater,

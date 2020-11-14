@@ -7,38 +7,29 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textview_apptitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/app_name"
-        android:textSize="36sp"
-        android:textColor="@color/colorAkabeni"
+    <ImageView
+        android:id="@+id/imageview_title"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:src="@drawable/app_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textview_appversion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/app_version"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_apptitle" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_bluetooth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
         android:layout_marginHorizontal="8dp"
-        app:cardBackgroundColor="@color/hashi"
+        android:layout_marginTop="16dp"
+        app:cardBackgroundColor="@color/kome"
         app:cardCornerRadius="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_appversion">
+        app:layout_constraintTop_toBottomOf="@+id/imageview_title">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,13 +47,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
                 android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="8dp"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="24dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -76,6 +67,12 @@
                         android:layout_height="1dp"
                         android:layout_weight="1" />
 
+                    <ProgressBar
+                        android:id="@+id/progress_bluetooth_connect"
+                        android:visibility="gone"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp" />
+
                     <TextView
                         android:id="@+id/textview_BTconnection"
                         android:layout_width="wrap_content"
@@ -83,7 +80,6 @@
                         android:gravity="end"
                         android:text="@string/card_sensor_bluetooth_unconnected"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -111,10 +107,12 @@
                         android:text="@string/card_sensor_battery_life_unknown"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
@@ -124,10 +122,12 @@
                         android:id="@+id/reconnection_button"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.35"
                         android:layout_marginTop="8dp"
+                        android:layout_weight="0.35"
+                        android:backgroundTint="@color/hako"
                         android:text="@string/card_bluetooth_connection"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/nori" />
 
                     <View
                         android:layout_width="0dp"
@@ -145,7 +145,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         app:cardCornerRadius="4dp"
-        app:cardBackgroundColor="@color/hashi"
+        app:cardBackgroundColor="@color/kome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/card_bluetooth">
@@ -212,6 +212,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.35"
+                        android:backgroundTint="@color/hako"
+                        android:textColor="@color/nori"
                         android:text="@string/card_message_reedit"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -225,6 +227,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.35"
+                        android:backgroundTint="@color/hako"
+                        android:textColor="@color/nori"
                         android:text="@string/card_message_play"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -244,6 +248,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:padding="8dp"
+        android:backgroundTint="@color/hako"
+        android:textColor="@color/nori"
         android:text="@string/button_record_message"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toBottomOf="parent"

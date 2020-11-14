@@ -18,6 +18,22 @@ class MessageStoreViewModel(): ViewModel() {
                 message.faceDataList.last().endTime + 5))
     }
 
+    fun deleteData(position: Int){
+        if (message.faceDataList.size == 1){
+            return
+        }
+        message.faceDataList.removeAt(position)
+        if (position == 0){
+            message.faceDataList[position].startTime = 0
+        } else if(position == message.faceDataList.size - 1) {
+            message.faceDataList[position].startTime = message.faceDataList[position - 1].endTime
+        }
+    }
+
+    fun getDisplayTime(position: Int): Int{
+        return message.faceDataList[position].endTime - message.faceDataList[position].startTime
+    }
+
     fun editResID(position: Int, resID: Int){
         message.faceDataList[position].resID = resID
     }

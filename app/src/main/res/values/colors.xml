@@ -5,8 +5,10 @@
     <color name="colorAccent">#03DAC5</color>
     <color name="red">#ff0000</color>
     <color name="white">#FFFFFF</color>
-    <color name="hako">#7e4333</color>
-    <color name="hashi">#ffd5ae</color>
-    <color name="nori">#303247</color>
     <color name="colorAkabeni">#CB4042</color>
+    <color name="hako">#FAD689</color>
+    <color name="hashi">#7B0000</color>
+    <color name="ume">#E83015</color>
+    <color name="nori">#08192D</color>
+    <color name="kome">#F9F8EF</color>
 </resources>

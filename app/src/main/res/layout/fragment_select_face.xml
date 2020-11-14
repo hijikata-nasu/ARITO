@@ -2,26 +2,37 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:clickable="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_face_select_close"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:insetLeft="0dp"
-        android:insetTop="0dp"
-        android:insetRight="0dp"
-        android:insetBottom="0dp"
-        android:backgroundTint="@color/white"
-        app:iconTint="@color/colorPrimary"
-        app:icon="@drawable/ic_baseline_close_24"
-        app:iconGravity="textEnd"
-        app:iconPadding="0dp"
-        app:cornerRadius="24dp"
+    <LinearLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@color/kome"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_face_select_close"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/hako"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            app:cornerRadius="8dp"
+            app:icon="@drawable/ic_baseline_close_24"
+            app:iconGravity="textEnd"
+            app:iconPadding="0dp"
+            app:iconTint="@color/nori" />
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_edit_face_image"
@@ -31,6 +42,8 @@
         android:clipToPadding="false"
         android:paddingBottom="128dp"
         android:scrollbars="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/button_face_select_close" />
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout" >
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
